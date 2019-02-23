@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_DB: forex
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: SQL9adjah!23
+
+  migration:
+    build: .
+    command: python manage.py migrate --noinput
+    depends_on:
+      - db
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - migration
