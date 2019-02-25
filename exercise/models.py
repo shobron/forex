@@ -12,7 +12,7 @@ class ExchangeType(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta: 
-            unique_together = (('origin', 'destination'),)
+        unique_together = (('origin', 'destination'),)
 
 class ExchangeRate(models.Model):
     rate = models.FloatField()
@@ -22,7 +22,7 @@ class ExchangeRate(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta: 
-            unique_together = (('date', 'currency'),)
+        unique_together = (('date', 'currency'),)
 
     def to_dict(self, date_input):
         weekly_average = ExchangeRate.objects.filter(

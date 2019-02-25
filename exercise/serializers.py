@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 from .models import *
 
 class DailyRatesSerializer(serializers.Serializer):
@@ -7,6 +8,14 @@ class DailyRatesSerializer(serializers.Serializer):
     origin = serializers.CharField(max_length=8)
     destination = serializers.CharField(max_length=8)
     rate = serializers.CharField()
+
+    class Meta:
+        validators = [
+            UniqueTogetherValidator(
+                queryset=ExchangeRate.objects.all(),
+                fields=('rate', 'date')
+            )
+        ]
 
     def create(self, validated_data):
         try:
